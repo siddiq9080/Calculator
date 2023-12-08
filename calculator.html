@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculator</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    #calculator {
+      text-align: center;
+      width: 300px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 5px;
+      font-size: 18px;
+      box-sizing: border-box;
+    }
+
+    button {
+      width: 48px;
+      height: 48px;
+      font-size: 18px;
+      margin: 5px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 10px;
+      font-size: 24px;
+    }
+
+  </style>
+
+<script
+src="https://app.zenclass.in/sheets/v1/js/zen/suite/bundle.js"
+defer
+></script>
+
+</head>
+<body>
+<!-- test suit start -->
+  <h1 id="title">Calculator</h1>
+  <p id="description">Calc</p>
+  <div class="table-responsive">
+    <table class="table" id="table">
+      <thead>
+        <tr>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <!-- test suite end -->
+
+  <div id="calculator">
+    <input type="text" id="expression" readonly>
+    <div>
+      <button onclick="appendCharacter('1')">1</button>
+      <button onclick="appendCharacter('2')">2</button>
+      <button onclick="appendCharacter('3')">3</button>
+      <button onclick="performOperation('+')">+</button>
+    </div>
+    <div>
+      <button onclick="appendCharacter('4')">4</button>
+      <button onclick="appendCharacter('5')">5</button>
+      <button onclick="appendCharacter('6')">6</button>
+      <button onclick="performOperation('-')">-</button>
+    </div>
+    <div>
+      <button onclick="appendCharacter('7')">7</button>
+      <button onclick="appendCharacter('8')">8</button>
+      <button onclick="appendCharacter('9')">9</button>
+      <button onclick="performOperation('*')">*</button>
+    </div>
+    <div>
+      <button onclick="appendCharacter('0')">0</button>
+      <button onclick="appendDot()">.</button>
+      <button onclick="performOperation('/')">/</button>
+      <button onclick="performOperation('%')">%</button>
+      <button onclick="erase()">C</button>
+      <button onclick="clearAll()">AC</button>
+      <button onclick="calculateResult()">=</button>
+    </div>
+    <div id="result"></div>
+  </div>
+
+  <script>
+    const expressionInput = document.getElementById('expression');
+    const resultOutput = document.getElementById('result');
+    let currentExpression = '';
+
+    function appendCharacter(char) {
+      currentExpression += char;
+      expressionInput.value = currentExpression;
+    }
+
+    function appendDot() {
+      // Check if the last character is an operator or there's already a dot
+      const lastChar = currentExpression.slice(-1);
+      if (!/[+\-*/%\.]/.test(lastChar)) {
+        currentExpression += '.';
+        expressionInput.value = currentExpression;
+      }
+    }
+
+    function performOperation(operator) {
+      currentExpression += operator;
+      expressionInput.value = currentExpression;
+    }
+
+    function erase() {
+      currentExpression = currentExpression.slice(0, -1);
+      expressionInput.value = currentExpression;
+    }
+
+    function clearAll() {
+      currentExpression = '';
+      expressionInput.value = '';
+    }
+
+    function calculateResult() {
+      try {
+        const result = eval(currentExpression);
+        resultOutput.textContent = `Result: ${result}`;
+      } catch (error) {
+        alert('Invalid expression');
+      }
+    }
+
+    // Handle non-numeric keys
+    document.addEventListener('keydown', function (event) {
+      const key = event.key;
+
+      if (!/[0-9+\-*/%=\.]/.test(key)) {
+        alert('Only numbers and operators (+, -, *, /, %, .) are allowed.');
+      }
+    });
+  </script>
+</body>
+</html>
